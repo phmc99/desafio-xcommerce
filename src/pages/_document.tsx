@@ -3,7 +3,7 @@ import NextDocument, {
   Head,
   Main,
   NextScript,
-  DocumentContext
+  DocumentContext,
 } from 'next/document';
 
 class MyDocument extends NextDocument {
@@ -16,11 +16,7 @@ class MyDocument extends NextDocument {
       <Html>
         <Head>
           <meta charSet="utf-8" />
-          <meta
-            name="description"
-            content="XCommerce"
-          />
-          <title>XCommerce</title>
+          <meta name="description" content="XCommerce" />
         </Head>
         <body>
           <Main />
