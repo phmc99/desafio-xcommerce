@@ -1,6 +1,7 @@
 import { Flex, Heading, Img, Text } from '@chakra-ui/react';
+import { IProduct } from '../../types';
 
-const MostSaledListItem = () => {
+const MostSaledListItem = ({ name, sales, price }: Partial<IProduct>) => {
   return (
     <Flex
       maxWidth="45%"
@@ -17,10 +18,10 @@ const MostSaledListItem = () => {
       />
       <Flex mt={2} w="100%" justifyContent="space-between">
         <Text color="#717787" fontSize="small">
-          R$&nbsp;<b>400,00</b>
+          R$&nbsp;<b>{price}</b>
         </Text>
         <Text color="#717787" fontSize="small">
-          203 vendas
+          {sales} vendas
         </Text>
       </Flex>
       <Heading
@@ -32,7 +33,7 @@ const MostSaledListItem = () => {
         size="sm"
         color="#235EE7"
       >
-        Most Saled List Item asdasdasdasdas
+        {name}
       </Heading>
     </Flex>
   );

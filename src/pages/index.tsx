@@ -7,6 +7,8 @@ import ProductsList from '../components/ProductsList';
 import SearchBox from '../components/SearchBox';
 
 export default function Home() {
+  // const [products, setProducts] = useState([]);
+
   return (
     <>
       <Head>

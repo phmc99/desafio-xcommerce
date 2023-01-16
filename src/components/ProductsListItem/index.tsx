@@ -1,13 +1,12 @@
 import { StarIcon } from '@chakra-ui/icons';
 import { Divider, Flex, IconButton, Img, Text } from '@chakra-ui/react';
 import { useState } from 'react';
+import { IProduct } from '../../types';
 
-interface ProductsListItemProps {
-  isFavorite?: boolean;
-}
+const ProductsListItem = ({ code, name, sales, price, stock }: IProduct) => {
+  const [favoriteToogle, setFavoriteToogle] = useState(false);
 
-const ProductsListItem = ({ isFavorite }: ProductsListItemProps) => {
-  const [favoriteToogle, setFavoriteToogle] = useState(isFavorite || false);
+  // procurar produto na lista de favoritos e mudar o estado do icone
 
   const handleFavoriteProduct = () => {
     setFavoriteToogle(!favoriteToogle);
@@ -33,11 +32,10 @@ const ProductsListItem = ({ isFavorite }: ProductsListItemProps) => {
               fontSize="md"
               color="#235EE7"
             >
-              Kit 10 un adesivo 3m porta cartao de silicone para celular Kit 10
-              un adesivo 3m porta cartao de silicone para celular
+              {name}
             </Text>
             <Text fontSize="sm" color="#717787" fontWeight="semibold">
-              #MLB1234567890
+              #{code}
             </Text>
           </Flex>
         </Flex>
@@ -47,12 +45,14 @@ const ProductsListItem = ({ isFavorite }: ProductsListItemProps) => {
           width="60%"
           alignItems="center"
         >
-          <Text>R$40,00</Text>
+          <Text>R${price}</Text>
           <Flex direction="column">
-            <Text fontWeight="semibold">Total de 3000</Text>
-            <Text>150 vendas</Text>
+            <Text fontWeight="semibold">
+              Total de {Math.ceil(price * sales)}
+            </Text>
+            <Text>{sales} vendas</Text>
           </Flex>
-          <Text>0 und</Text>
+          <Text>{stock} und</Text>
           <IconButton
             aria-label="Favorite product"
             bgColor="transparent"

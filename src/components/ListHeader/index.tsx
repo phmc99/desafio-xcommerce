@@ -4,10 +4,15 @@ import React from 'react';
 
 interface ListHeaderProps {
   title: string;
-  handleChangePage?: () => void;
+  handlePrevPage: any;
+  handleNextPage: any;
 }
 
-const ListHeader = ({ title }: ListHeaderProps) => {
+const ListHeader = ({
+  title,
+  handlePrevPage,
+  handleNextPage,
+}: ListHeaderProps) => {
   return (
     <Flex w="100%" justifyContent="space-between">
       <Heading size="md">{title}</Heading>
@@ -23,6 +28,7 @@ const ListHeader = ({ title }: ListHeaderProps) => {
             filter: 'brightness(0.85)',
           }}
           icon={<ArrowBackIcon />}
+          onClick={handlePrevPage}
         />
         <IconButton
           bgColor="transparent"
@@ -35,6 +41,7 @@ const ListHeader = ({ title }: ListHeaderProps) => {
             filter: 'brightness(0.85)',
           }}
           icon={<ArrowForwardIcon />}
+          onClick={handleNextPage}
         />
       </Flex>
     </Flex>
