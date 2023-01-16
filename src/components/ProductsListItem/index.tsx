@@ -36,7 +36,7 @@ const ProductsListItem = ({ isFavorite }: ProductsListItemProps) => {
               Kit 10 un adesivo 3m porta cartao de silicone para celular Kit 10
               un adesivo 3m porta cartao de silicone para celular
             </Text>
-            <Text color="#717787" fontWeight="semibold">
+            <Text fontSize="sm" color="#717787" fontWeight="semibold">
               #MLB1234567890
             </Text>
           </Flex>
@@ -60,8 +60,10 @@ const ProductsListItem = ({ isFavorite }: ProductsListItemProps) => {
             color={favoriteToogle ? 'orange' : '#99A0B0'}
             _hover={{
               bgColor: 'transparent',
-              color: '#99A0B0',
               filter: 'brightness(0.85)',
+            }}
+            _active={{
+              color: 'orange',
             }}
             icon={<StarIcon />}
             onClick={handleFavoriteProduct}
