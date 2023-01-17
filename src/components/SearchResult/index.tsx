@@ -1,6 +1,7 @@
 import { Box, Flex, Heading, Spinner } from '@chakra-ui/react';
 import { useAtom } from 'jotai';
 import { favoriteProductsAtom } from '../../atoms';
+import { scrollBar } from '../../styles/theme';
 import { IProduct } from '../../types';
 import ProductsListItem from '../ProductsListItem';
 
@@ -34,16 +35,21 @@ const SearchResult = ({
         zIndex={2}
       ></Flex>
       <Box
-        position="absolute"
-        maxH={'30%'}
-        right={0}
-        top="15%"
         zIndex={3}
+        right={0}
+        maxW={640}
+        w="100%"
+        position="absolute"
+        maxH="30%"
+        top="15%"
         bgColor="#FAFAFA"
         overflowY={resultList && 'scroll'}
+        css={{
+          ...scrollBar,
+        }}
       >
         {isLoading ? (
-          <Box p={10} w="100%" bgColor="#FAFAFA">
+          <Box p={10} textAlign="center" w="100%" bgColor="#FAFAFA">
             <Spinner
               thickness="4px"
               speed="0.65s"
@@ -54,9 +60,9 @@ const SearchResult = ({
           </Box>
         ) : null}
         {!isLoading && resultList.length <= 0 ? (
-          <Heading color="gray.400" p={10}>
-            Nenhum resultado
-          </Heading>
+          <Box p={10} textAlign="center" w="100%" bgColor="#FAFAFA">
+            <Heading color="gray.400">Nenhum resultado</Heading>
+          </Box>
         ) : null}
         {resultList.map((item, index) => (
           <ProductsListItem

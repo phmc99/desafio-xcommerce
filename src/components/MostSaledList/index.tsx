@@ -51,7 +51,8 @@ const MostSaledList = () => {
         justifyContent="center"
         w="70%"
         h="100vh"
-        borderLeft={'2px solid red'}
+        borderRight={'2px solid whitesmoke'}
+        color="gray.400"
       >
         <Heading size="md">
           Algo deu errado com a lista de Mais vendidos

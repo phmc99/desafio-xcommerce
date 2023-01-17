@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { getAllProducts } from '../../services/api';
 import { useAtom } from 'jotai';
 import { favoriteProductsAtom, favoriteToggleAtom } from '../../atoms';
+import { scrollBar } from '../../styles/theme';
 
 const ProductsList = () => {
   const [page, setPage] = useState<number>(1);
@@ -60,7 +61,11 @@ const ProductsList = () => {
         />
       ));
     } else {
-      return <Heading p={5}>Nenhum produto favoritado.</Heading>;
+      return (
+        <Heading color="gray.400" p={5}>
+          Nenhum produto favoritado.
+        </Heading>
+      );
     }
   };
 
@@ -99,9 +104,11 @@ const ProductsList = () => {
         justifyContent="center"
         w="70%"
         h="100vh"
-        borderLeft={'2px solid red'}
+        borderLeft={'2px solid whitesmoke'}
       >
-        <Heading size="md">Algo deu errado com a lista de Produtos</Heading>
+        <Heading color="gray.400" size="md">
+          Algo deu errado com a lista de Produtos
+        </Heading>
       </Flex>
     );
   }
@@ -124,6 +131,9 @@ const ProductsList = () => {
         maxH="680px"
         bgColor="#F3F5F9"
         overflowY="scroll"
+        css={{
+          ...scrollBar,
+        }}
       >
         <Flex mb={3} p={2} w="100%" justifyContent="space-between">
           <Text color="#99A0B0" fontWeight="bold">
