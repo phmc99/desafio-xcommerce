@@ -5,6 +5,7 @@ const MostSaledListItem = ({ name, sales, price }: Partial<IProduct>) => {
   return (
     <Flex
       maxWidth="45%"
+      maxH="300px"
       direction="column"
       alignItems="center"
       cursor="pointer"
@@ -12,7 +13,7 @@ const MostSaledListItem = ({ name, sales, price }: Partial<IProduct>) => {
       <Img
         rounded={10}
         boxShadow="md"
-        w="100%"
+        w="95%"
         src="https://via.placeholder.com/600"
         alt="Product"
       />

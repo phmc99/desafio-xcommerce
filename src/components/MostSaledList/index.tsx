@@ -44,8 +44,9 @@ const MostSaledList = () => {
         justifyContent="space-around"
         w="100%"
         h="100%"
+        maxH="680px"
         bgColor="#F3F5F9"
-        gap={5}
+        gap={2}
       >
         {data.content.map((item, index) => (
           <MostSaledListItem

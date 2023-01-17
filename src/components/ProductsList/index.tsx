@@ -89,15 +89,15 @@ const ProductsList = () => {
       <Flex
         p={5}
         borderRadius={10}
-        justifyContent="center"
+        justifyContent="flex-start"
         direction="column"
         w="100%"
         h="100%"
-        maxH="100vh"
+        maxH="680px"
         bgColor="#F3F5F9"
         overflowY="scroll"
       >
-        <Flex mb={3} w="100%" justifyContent="space-between">
+        <Flex mb={3} p={2} w="100%" justifyContent="space-between">
           <Text color="#99A0B0" fontWeight="bold">
             Identificação
           </Text>
