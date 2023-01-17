@@ -1,11 +1,16 @@
 import { Button, Flex } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useAtom } from 'jotai';
+import { favoriteProductsAtom, favoriteToggleAtom } from '../../atoms';
 
 const HeaderButtonGroup = () => {
-  const [favoriteProducts, setFavoriteProducts] = useState<boolean>(false);
+  const [favoriteToogle, setFavoriteToogle] = useAtom(favoriteToggleAtom);
+  const [, setFavoriteProducts] = useAtom(favoriteProductsAtom);
 
   const handleToggleFavoriteProducts = () => {
-    setFavoriteProducts(!favoriteProducts);
+    setFavoriteProducts(
+      JSON.parse(localStorage.getItem('@xco:favorites') || '[]'),
+    );
+    setFavoriteToogle(!favoriteToogle);
   };
 
   const hoverProps = {
@@ -30,7 +35,7 @@ const HeaderButtonGroup = () => {
             color="white"
             bgColor="#D32811"
             fontWeight="normal"
-            filter={favoriteProducts ? 'brightness(0.85)' : 'brightness(1)'}
+            filter={favoriteToogle ? 'brightness(0.85)' : 'brightness(1)'}
             _hover={hoverProps}
             onClick={handleToggleFavoriteProducts}
           >
@@ -41,7 +46,7 @@ const HeaderButtonGroup = () => {
             color="white"
             bgColor="#D32811"
             fontWeight="normal"
-            filter={favoriteProducts ? 'brightness(1)' : 'brightness(0.85)'}
+            filter={favoriteToogle ? 'brightness(1)' : 'brightness(0.85)'}
             _hover={hoverProps}
             onClick={handleToggleFavoriteProducts}
           >

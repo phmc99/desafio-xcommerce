@@ -1,15 +1,58 @@
 import { StarIcon } from '@chakra-ui/icons';
-import { Divider, Flex, IconButton, Img, Text } from '@chakra-ui/react';
-import { useState } from 'react';
+import {
+  Divider,
+  Flex,
+  IconButton,
+  Img,
+  Text,
+  useToast,
+} from '@chakra-ui/react';
+import { useAtom } from 'jotai';
+import { favoriteProductsAtom } from '../../atoms';
 import { IProduct } from '../../types';
 
-const ProductsListItem = ({ code, name, sales, price, stock }: IProduct) => {
-  const [favoriteToogle, setFavoriteToogle] = useState(false);
+interface ProductsListItemProps extends IProduct {
+  favorite: boolean;
+}
 
-  // procurar produto na lista de favoritos e mudar o estado do icone
+const ProductsListItem = ({
+  code,
+  name,
+  sales,
+  price,
+  stock,
+  favorite,
+}: ProductsListItemProps) => {
+  const [favoriteProducts, setFavoriteProducts] = useAtom(favoriteProductsAtom);
 
-  const handleFavoriteProduct = () => {
-    setFavoriteToogle(!favoriteToogle);
+  const toast = useToast();
+
+  const handleFavoriteProduct = (item: IProduct) => {
+    const find = favoriteProducts.find(el => el.code === item.code);
+
+    if (find === undefined) {
+      setFavoriteProducts([...favoriteProducts, item]);
+      localStorage.setItem(
+        '@xco:favorites',
+        JSON.stringify([...favoriteProducts, item]),
+      );
+      toast({
+        title: 'Produto favoritado.',
+        status: 'success',
+        duration: 2000,
+      });
+    } else {
+      const filter = favoriteProducts.filter(
+        remove => remove.name !== item.name,
+      );
+      setFavoriteProducts(filter);
+      localStorage.setItem('@xco:favorites', JSON.stringify(filter));
+      toast({
+        title: 'Produto removido do favoritos.',
+        status: 'info',
+        duration: 2000,
+      });
+    }
   };
 
   return (
@@ -57,7 +100,7 @@ const ProductsListItem = ({ code, name, sales, price, stock }: IProduct) => {
             aria-label="Favorite product"
             bgColor="transparent"
             fontSize="2xl"
-            color={favoriteToogle ? 'orange' : '#99A0B0'}
+            color={favorite ? 'orange' : '#99A0B0'}
             _hover={{
               bgColor: 'transparent',
               filter: 'brightness(0.85)',
@@ -66,7 +109,9 @@ const ProductsListItem = ({ code, name, sales, price, stock }: IProduct) => {
               color: 'orange',
             }}
             icon={<StarIcon />}
-            onClick={handleFavoriteProduct}
+            onClick={() =>
+              handleFavoriteProduct({ name, price, sales, stock, code })
+            }
           />
         </Flex>
       </Flex>

@@ -33,7 +33,7 @@ export default function Home() {
         <Flex h="100%" w="100vw" bgColor="#FAFAFA">
           <Flex h="100%" w="100%" px={10} pt={20} pb={10} gap={10}>
             <MostSaledList />
-            <ProductsList favoriteProducts={false} />
+            <ProductsList />
           </Flex>
         </Flex>
       </Flex>

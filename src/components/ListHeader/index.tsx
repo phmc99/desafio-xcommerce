@@ -6,12 +6,14 @@ interface ListHeaderProps {
   title: string;
   handlePrevPage: any;
   handleNextPage: any;
+  disableButtons?: boolean;
 }
 
 const ListHeader = ({
   title,
   handlePrevPage,
   handleNextPage,
+  disableButtons,
 }: ListHeaderProps) => {
   return (
     <Flex w="100%" justifyContent="space-between">
@@ -29,6 +31,7 @@ const ListHeader = ({
           }}
           icon={<ArrowBackIcon />}
           onClick={handlePrevPage}
+          disabled={disableButtons && true}
         />
         <IconButton
           bgColor="transparent"
@@ -42,6 +45,7 @@ const ListHeader = ({
           }}
           icon={<ArrowForwardIcon />}
           onClick={handleNextPage}
+          disabled={disableButtons && true}
         />
       </Flex>
     </Flex>
