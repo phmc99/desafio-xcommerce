@@ -58,7 +58,13 @@ export function makeServer({ environment = 'test' } = {}) {
 
       this.post('products', async (schema, req) => {
         const data = JSON.parse(req.requestBody);
-        return { product: await schema.products.create({ ...data }) };
+        return {
+          product: await schema.products.create({
+            ...data,
+            code: faker.datatype.uuid(),
+            sales: 0,
+          }),
+        };
       });
 
       this.get('mostsaled', async (schema, req) => {

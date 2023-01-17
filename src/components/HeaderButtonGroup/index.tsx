@@ -1,9 +1,14 @@
 import { Button, Flex } from '@chakra-ui/react';
 import { useAtom } from 'jotai';
-import { favoriteProductsAtom, favoriteToggleAtom } from '../../atoms';
+import {
+  createToggleAtom,
+  favoriteProductsAtom,
+  favoriteToggleAtom,
+} from '../../atoms';
 
 const HeaderButtonGroup = () => {
   const [favoriteToogle, setFavoriteToogle] = useAtom(favoriteToggleAtom);
+  const [createToggle, setCreateToggle] = useAtom(createToggleAtom);
   const [, setFavoriteProducts] = useAtom(favoriteProductsAtom);
 
   const handleToggleFavoriteProducts = () => {
@@ -59,6 +64,7 @@ const HeaderButtonGroup = () => {
           bgColor="#D32811"
           fontWeight="normal"
           _hover={hoverProps}
+          onClick={() => setCreateToggle(!createToggle)}
         >
           Criar novo
         </Button>
