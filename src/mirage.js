@@ -12,11 +12,21 @@ export function makeServer({ environment = 'test' } = {}) {
 
     factories: {
       product: Factory.extend({
-        code: faker.datatype.uuid(),
-        name: faker.commerce.product(),
-        price: faker.commerce.price(10, 1000),
-        sales: faker.datatype.number({ max: 10 }),
-        stock: faker.datatype.number({ min: 1, max: 99 }),
+        code() {
+          return faker.datatype.uuid();
+        },
+        name() {
+          return faker.commerce.product();
+        },
+        price() {
+          return faker.commerce.price(10, 1000);
+        },
+        sales() {
+          return faker.datatype.number({ max: 10 });
+        },
+        stock() {
+          return faker.datatype.number({ min: 1, max: 99 });
+        },
       }),
     },
 
@@ -26,9 +36,36 @@ export function makeServer({ environment = 'test' } = {}) {
 
     routes() {
       this.namespace = 'api';
-      this.get('products', (schema, req) => {
+      this.get('products', async (schema, req) => {
+        const { page, perPage, search } = req.queryParams;
+
+        if (search) {
+          const arr = await schema.products
+            .all()
+            .models.map(item => item.attrs);
+          const filter = arr.filter(item =>
+            item.name.toLowerCase().includes(search.toLowerCase()),
+          );
+          return filter;
+        }
+
+        return paginateData(
+          await schema.products.all().models,
+          +page,
+          +perPage,
+        );
+      });
+
+      this.post('products', async (schema, req) => {
+        const data = JSON.parse(req.requestBody);
+        return { product: await schema.products.create({ ...data }) };
+      });
+
+      this.get('mostsaled', async (schema, req) => {
         const { page, perPage } = req.queryParams;
-        return paginateData(schema.all('product').models, +page, +perPage);
+        const arr = await schema.products.all().models.map(item => item.attrs);
+        const sortedArray = arr.sort((a, b) => a.sales - b.sales).reverse();
+        return paginateData(sortedArray, +page, +perPage);
       });
 
       this.namespace = '';

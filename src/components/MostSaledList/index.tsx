@@ -1,5 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { getAllProducts } from '../../services/api';
+import { getMostSaledProducts } from '../../services/api';
 import { IProductQuery } from '../../types';
 import ListHeader from '../ListHeader';
 import MostSaledListItem from '../MostSaledListItem';
@@ -9,8 +9,8 @@ import { useQuery } from 'react-query';
 const MostSaledList = () => {
   const [page, setPage] = useState<number>(1);
   const { data, isLoading, error }: IProductQuery = useQuery(
-    ['products', page],
-    () => getAllProducts(page, 6),
+    ['mostsaled', page],
+    () => getMostSaledProducts(page),
   );
 
   if (isLoading) {

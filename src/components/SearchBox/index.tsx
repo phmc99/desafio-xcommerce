@@ -6,26 +6,18 @@ import {
   InputLeftElement,
   Input,
 } from '@chakra-ui/react';
-import { useAtom } from 'jotai';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
-import { favoriteProductsAtom } from '../../atoms';
-import { getAllProducts } from '../../services/api';
-import { IProduct, IProductQuery } from '../../types';
+import { getBySearch } from '../../services/api';
 import SearchResult from '../SearchResult';
 
 const SearchBox = () => {
-  const { data, isLoading, error }: IProductQuery = useQuery(['products'], () =>
-    getAllProducts(),
-  );
-  const [favoriteProducts] = useAtom(favoriteProductsAtom);
-
+  const [searchValue, setSearchValue] = useState<string>(' ');
   const [inputFocus, setInputFocus] = useState<boolean>(false);
-  const [searchResultList, setSearchResultList] = useState<IProduct[]>([]);
 
-  if (!data || error) {
-    return <></>;
-  }
+  const { data, isLoading } = useQuery(['products', searchValue], () =>
+    getBySearch(searchValue),
+  );
 
   const inSearchToggle = () => {
     setInputFocus(!inputFocus);
@@ -33,20 +25,14 @@ const SearchBox = () => {
 
   const handleChange = (e: any) => {
     setInputFocus(true);
-    const dataFilter = data.content.filter(item =>
-      item.name.toLowerCase().includes(e.target.value.toLowerCase()),
-    );
-    const favoriteFilter = favoriteProducts.filter(item =>
-      item.name.toLowerCase().includes(e.target.value.toLowerCase()),
-    );
-    setSearchResultList([...dataFilter, ...favoriteFilter]);
+    setSearchValue(e.target.value);
   };
 
   return (
     <>
       {inputFocus && isLoading === false ? (
         <SearchResult
-          resultList={searchResultList}
+          resultList={searchValue.trim() === '' ? [] : data}
           closeFunc={inSearchToggle}
         />
       ) : null}
