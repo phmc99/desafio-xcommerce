@@ -1,4 +1,4 @@
-import { Box, Divider, Flex, Heading, Text } from '@chakra-ui/react';
+import { Box, Divider, Flex, Heading, Spinner, Text } from '@chakra-ui/react';
 import ListHeader from '../ListHeader';
 import ProductsListItem from '../ProductsListItem';
 import { IProductQuery } from '../../types';
@@ -71,11 +71,39 @@ const ProductsList = () => {
   }, [favoriteProducts, setFavoriteProducts]);
 
   if (isLoading) {
-    return <h1>Carregando...</h1>;
+    return (
+      <Flex
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        w="70%"
+        h="100vh"
+        borderLeft={'2px solid whitesmoke'}
+      >
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.500"
+          size="xl"
+        />
+      </Flex>
+    );
   }
 
   if (!data || error) {
-    return <h1>Algo deu errado.</h1>;
+    return (
+      <Flex
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        w="70%"
+        h="100vh"
+        borderLeft={'2px solid red'}
+      >
+        <Heading size="md">Algo deu errado com a lista de Produtos</Heading>
+      </Flex>
+    );
   }
 
   return (

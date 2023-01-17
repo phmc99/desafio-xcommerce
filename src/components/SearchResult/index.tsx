@@ -1,4 +1,4 @@
-import { Box, Flex, Heading } from '@chakra-ui/react';
+import { Box, Flex, Heading, Spinner } from '@chakra-ui/react';
 import { useAtom } from 'jotai';
 import { favoriteProductsAtom } from '../../atoms';
 import { IProduct } from '../../types';
@@ -7,9 +7,14 @@ import ProductsListItem from '../ProductsListItem';
 interface SearchResultProps {
   closeFunc: any;
   resultList: IProduct[];
+  isLoading: boolean;
 }
 
-const SearchResult = ({ closeFunc, resultList }: SearchResultProps) => {
+const SearchResult = ({
+  closeFunc,
+  resultList,
+  isLoading,
+}: SearchResultProps) => {
   const [favoriteProducts] = useAtom(favoriteProductsAtom);
 
   const verifyFavorite = (code: string) => {
@@ -35,9 +40,20 @@ const SearchResult = ({ closeFunc, resultList }: SearchResultProps) => {
         top="15%"
         zIndex={3}
         bgColor="#FAFAFA"
-        overflowY="scroll"
+        overflowY={resultList && 'scroll'}
       >
-        {resultList.length <= 0 ? (
+        {isLoading ? (
+          <Box p={10} w="100%" bgColor="#FAFAFA">
+            <Spinner
+              thickness="4px"
+              speed="0.65s"
+              emptyColor="gray.200"
+              color="blue.500"
+              size="xl"
+            />
+          </Box>
+        ) : null}
+        {!isLoading && resultList.length <= 0 ? (
           <Heading color="gray.400" p={10}>
             Nenhum resultado
           </Heading>

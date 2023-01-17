@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading, Spinner, Text } from '@chakra-ui/react';
 import { getMostSaledProducts } from '../../services/api';
 import { IProductQuery } from '../../types';
 import ListHeader from '../ListHeader';
@@ -13,22 +13,52 @@ const MostSaledList = () => {
     () => getMostSaledProducts(page),
   );
 
-  if (isLoading) {
-    return <h1>Carregando...</h1>;
-  }
-
-  if (!data || error) {
-    return <h1>Algo deu errado.</h1>;
-  }
-
   const handleNextPage = () => {
     setPage(p => p + 1);
   };
   const handlePrevPage = () => {
-    if (data.page > 0) {
+    if (data && data.page > 0) {
       setPage(p => p - 1);
     }
   };
+
+  if (isLoading) {
+    return (
+      <Flex
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        w="30%"
+        h="100vh"
+        borderRight={'2px solid whitesmoke'}
+      >
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.500"
+          size="xl"
+        />
+      </Flex>
+    );
+  }
+
+  if (!data || error) {
+    return (
+      <Flex
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        w="70%"
+        h="100vh"
+        borderLeft={'2px solid red'}
+      >
+        <Heading size="md">
+          Algo deu errado com a lista de Mais vendidos
+        </Heading>
+      </Flex>
+    );
+  }
 
   return (
     <Flex direction="column" alignItems="center" w="30%" h="100%">

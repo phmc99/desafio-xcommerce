@@ -24,16 +24,19 @@ const SearchBox = () => {
   };
 
   const handleChange = (e: any) => {
-    setInputFocus(true);
-    setSearchValue(e.target.value);
+    if (!isLoading) {
+      setInputFocus(true);
+      setSearchValue(e.target.value);
+    }
   };
 
   return (
     <>
-      {inputFocus && isLoading === false ? (
+      {inputFocus ? (
         <SearchResult
-          resultList={searchValue.trim() === '' ? [] : data}
+          resultList={searchValue.trim() !== '' && data ? data : []}
           closeFunc={inSearchToggle}
+          isLoading={isLoading}
         />
       ) : null}
       <Flex

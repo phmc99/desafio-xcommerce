@@ -36,25 +36,29 @@ export function makeServer({ environment = 'test' } = {}) {
 
     routes() {
       this.namespace = 'api';
-      this.get('products', async (schema, req) => {
-        const { page, perPage, search } = req.queryParams;
+      this.get(
+        'products',
+        async (schema, req) => {
+          const { page, perPage, search } = req.queryParams;
 
-        if (search) {
-          const arr = await schema.products
-            .all()
-            .models.map(item => item.attrs);
-          const filter = arr.filter(item =>
-            item.name.toLowerCase().includes(search.toLowerCase()),
+          if (search) {
+            const arr = await schema.products
+              .all()
+              .models.map(item => item.attrs);
+            const filter = arr.filter(item =>
+              item.name.toLowerCase().includes(search.toLowerCase()),
+            );
+            return filter;
+          }
+
+          return paginateData(
+            await schema.products.all().models,
+            +page,
+            +perPage,
           );
-          return filter;
-        }
-
-        return paginateData(
-          await schema.products.all().models,
-          +page,
-          +perPage,
-        );
-      });
+        },
+        { timing: 3000 },
+      );
 
       this.post('products', async (schema, req) => {
         const data = JSON.parse(req.requestBody);
@@ -67,12 +71,18 @@ export function makeServer({ environment = 'test' } = {}) {
         };
       });
 
-      this.get('mostsaled', async (schema, req) => {
-        const { page, perPage } = req.queryParams;
-        const arr = await schema.products.all().models.map(item => item.attrs);
-        const sortedArray = arr.sort((a, b) => a.sales - b.sales).reverse();
-        return paginateData(sortedArray, +page, +perPage);
-      });
+      this.get(
+        'mostsaled',
+        async (schema, req) => {
+          const { page, perPage } = req.queryParams;
+          const arr = await schema.products
+            .all()
+            .models.map(item => item.attrs);
+          const sortedArray = arr.sort((a, b) => a.sales - b.sales).reverse();
+          return paginateData(sortedArray, +page, +perPage);
+        },
+        { timing: 3000 },
+      );
 
       this.namespace = '';
       this.passthrough();
